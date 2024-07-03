@@ -27,6 +27,8 @@ public class Gym {
                 }
             });
         }).collect(Collectors.toList());
+        Thread supervisor = createSupervisor(gymMembersRoutines);
+        supervisor.start();
         // Method referencing syntax (uses double colons)
         gymMembersRoutines.forEach(Thread::start);
     }
