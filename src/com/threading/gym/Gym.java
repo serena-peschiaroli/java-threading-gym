@@ -27,6 +27,33 @@ public class Gym {
                 }
             });
         }).collect(Collectors.toList());
+        // Method referencing syntax (uses double colons)
+        gymMembersRoutines.forEach(Thread::start);
+    }
+
+    public Thread createSupervisor(List<Thread> threads){
+        Thread supervisor = new Thread(()->{
+            while(true){
+                List<String> runningThreads = threads.stream().filter(Thread::isAlive).map(Thread::getName).collect(Collectors.toList());
+                System.out.println(STR."\{Thread.currentThread().getName()} - \{runningThreads.size()} members currently excercising: \{runningThreads}\n");
+                if(runningThreads.isEmpty()){
+                    break;
+                }
+                try{
+                    Thread.sleep(1000);
+
+                }catch (InterruptedException e){
+                    System.out.println(e);
+
+                }
+
+
+            }
+            System.out.println(STR."\{Thread.currentThread().getName()} - All members are finished exercising!");
+
+        });
+        supervisor.setName("Gym Staff");
+        return supervisor;
     }
 
 
